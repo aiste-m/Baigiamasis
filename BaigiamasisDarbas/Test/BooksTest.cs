@@ -14,48 +14,54 @@ namespace BaigiamasisDarbas.Test
         public static void TestCheckFirstBookInTopPrice(string price, string status)
         {
             _booksPage.NavigateToPage()
-                       .ClickTopButton()
-                       .NavigateToBookByLink()
-                       .CheckFirstBookInTopPrice(price)
-                       .CheckFirstBookInTopStatusInKaunasStore(status);
-
+                      .AcceptCookies()
+                      .ClickTopButton()
+                      .NavigateToBookByLink()
+                      .CheckFirstBookInTopPrice(price)
+                      .CheckFirstBookInTopStatusInKaunasStore(status);
         }
+
+        [Test]
+        public static void TestFilterBook()
+        {
+            _booksPage.NavigateToPage()
+                      .AcceptCookies()
+                      .FilterBook()
+                      .CheckFilteredBooksCount("1")
+                      .ClickClearFilterButton();
+        }
+
 
         [TestCase("testavimas", "Rasta 9 rezult. užklausai testavimas", TestName = "Testing search by \"testavimas\" text")]
         public static void TestSearch(string searchText, string searchResultText)
         {
             _booksPage.NavigateToPage()
-                      .DoSearch(searchText)
-                      .CheckSearchResult(searchResultText);
+                      .AcceptCookies()
+                      .DoSearch(searchText, searchResultText)
+                      .CheckSearchResult(searchText, searchResultText);
         }
-        [Test]
-        public static void TestFilterBook()
-        {
-            _booksPage.FilterBook()
-                       .ClickClearFilterButton();
-        }
+    
 
-
-        [TestCase("Advanced Automated Software Testing", "Rasta 1 rezult. užklausai Advanced Automated Software Testing", TestName = "Testing search by \"Advanced Automated Software Testing\" text")]
+        [TestCase("Advanced Automated Software Testing", "Rasta 1 rezult. užklausai Advanced Automated Software Testing", TestName = "Testing search by \"Advanced Automated Software Testing\" text & buy")]
         public static void TestFilterBookAndBuy(string searchText, string searchResultText)
         {
             _booksPage.NavigateToPage()
-            .DoSearch(searchText)
-            .CheckSearchResult(searchResultText)
-            .ClickBuySearchedAutoTestBookButton()
-            .ClickViewShopCartLink()
-            .ClickRecycleButton()
-            .ClickAddBooksLink();
-
-        }
+                      .AcceptCookies()
+                      .DoSearch(searchText, searchResultText)
+                      .CheckSearchResult(searchText, searchResultText)
+                      .ClickBuySearchedAutoTestBookButton()
+                      .ClickViewShopCartLink()
+                      .ClickRecycleButton()
+                      .ClickAddBooksLink();
+        }      
 
         [Test]
-        public static void TestFindMarkerWithHighestPrice()
+        public static void TestBuyCoupon()
         {
-            _booksPage.NavigateToMarkersPage()
-                      .FindMarkerWithHighestPrice();
-
+            _booksPage.NavigateToPage()
+                      .AcceptCookies()
+                      .BuyCoupon("55", "55,00 €")
+                      .ClickRecycleButton();
         }
-
     }
 }
