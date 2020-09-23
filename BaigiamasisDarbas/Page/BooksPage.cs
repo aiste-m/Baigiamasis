@@ -117,7 +117,7 @@ namespace BaigiamasisDarbas.Page
             hobbiesCategory.Click();
             gamesBooksCategory.Click();
             topGoodsCheckbox.Click();
-            GetWait().Until(ExpectedConditions.ElementToBeClickable(publishingHouseList));
+            GetWait(2).Until(ExpectedConditions.ElementToBeClickable(publishingHouseList));
             publishingHouseList.Click();
             publishingHouseObuolys.Click();
             balanceInWarehouseCheckbox.Click();
