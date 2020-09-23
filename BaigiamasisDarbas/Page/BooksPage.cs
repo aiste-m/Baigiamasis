@@ -16,12 +16,10 @@ namespace BaigiamasisDarbas.Page
     {
 
         private const string booksPageAddress = "https://www.knygos.lt/";
-
         private const string top1BookAddress = "https://www.knygos.lt/lt/knygos/ten--kur-gieda-veziai/";         
         
         //Top book
-        private IWebElement topLink => driver.FindElement(By.LinkText("Top"));
-                
+        private IWebElement topLink => driver.FindElement(By.LinkText("Top"));                
         private IWebElement top1BookPrice => driver.FindElement(By.CssSelector(".prices > .book-price > .new-price"));
         private IWebElement top1BookInKaunasShop => driver.FindElement(By.CssSelector(".features:nth-child(2) .location-wrapper:nth-child(4) .in-store-statuses-text"));
 
