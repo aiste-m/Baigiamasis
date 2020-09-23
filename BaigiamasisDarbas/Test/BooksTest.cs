@@ -9,8 +9,7 @@ namespace BaigiamasisDarbas.Test
 {
     class BooksTest : TestBase
     {
-
-        [TestCase("13,53 €", "Yra pakankamai", TestName = "Testing top 1 book price")]
+        [TestCase("13,53 €", "Yra pakankamai", TestName = "Testing top 1 book price & status in shop")]
         public static void TestCheckFirstBookInTopPrice(string price, string status)
         {
             _booksPage.NavigateToPage()
@@ -21,46 +20,43 @@ namespace BaigiamasisDarbas.Test
                       .CheckFirstBookInTopStatusInKaunasStore(status);
         }
 
-        [Test]
-        public static void TestFilterBook()
+        [TestCase("1", TestName = "Testing filtered book count")]
+        public static void TestFilterBook(string filteredBooksCount)
         {
             _booksPage.NavigateToPage()
                       .AcceptCookies()
                       .FilterBook()
-                      .CheckFilteredBooksCount("1")
+                      .CheckFilteredBooksCount(filteredBooksCount)
                       .ClickClearFilterButton();
         }
-
 
         [TestCase("testavimas", "Rasta 9 rezult. užklausai testavimas", TestName = "Testing search by \"testavimas\" text")]
         public static void TestSearch(string searchText, string searchResultText)
         {
             _booksPage.NavigateToPage()
                       .AcceptCookies()
-                      .DoSearch(searchText, searchResultText)
+                      .DoSearch(searchText)
                       .CheckSearchResult(searchText, searchResultText);
-        }
-    
+        }    
 
-        [TestCase("Advanced Automated Software Testing", "Rasta 1 rezult. užklausai Advanced Automated Software Testing", TestName = "Testing search by \"Advanced Automated Software Testing\" text & buy")]
-        public static void TestFilterBookAndBuy(string searchText, string searchResultText)
+        [TestCase("Advanced Automated Software Testing",  TestName = "Testing search by \"Advanced Automated Software Testing\" book & buy")]
+        public static void TestFilterBookAndBuy(string searchText)
         {
             _booksPage.NavigateToPage()
                       .AcceptCookies()
-                      .DoSearch(searchText, searchResultText)
-                      .CheckSearchResult(searchText, searchResultText)
+                      .DoSearch(searchText)                      
                       .ClickBuySearchedAutoTestBookButton()
                       .ClickViewShopCartLink()
                       .ClickRecycleButton()
                       .ClickAddBooksLink();
-        }      
+        }
 
-        [Test]
-        public static void TestBuyCoupon()
+        [TestCase("55", "55,00 €", TestName = "Coupon test")]
+        public static void TestBuyCoupon(string couponPrice, string moneyResult)
         {
             _booksPage.NavigateToPage()
                       .AcceptCookies()
-                      .BuyCoupon("55", "55,00 €")
+                      .BuyCoupon(couponPrice, moneyResult)
                       .ClickRecycleButton();
         }
     }

@@ -26,8 +26,7 @@ namespace BaigiamasisDarbas.Page
         private IWebElement top1BookInKaunasShop => driver.FindElement(By.CssSelector(".features:nth-child(2) .location-wrapper:nth-child(4) .in-store-statuses-text"));
 
         //Search
-        private IWebElement searchInput => driver.FindElement(By.Id("product-search"));
-        private IWebElement searchResult => driver.FindElement(By.CssSelector("p:nth-child(3)"));
+        private IWebElement searchInput => driver.FindElement(By.Id("product-search"));      
         private IWebElement searchBookCountResult => driver.FindElement(By.CssSelector("p > strong:nth-child(1)"));
                
         //Filter
@@ -41,7 +40,7 @@ namespace BaigiamasisDarbas.Page
         private IWebElement filterResult => driver.FindElement(By.CssSelector(".desktop-view > span > strong:nth-child(2)"));
         private IWebElement clearFilterButton => driver.FindElement(By.CssSelector("#filters-desktop > div.pt-3 > button"));              
        
-        //Add to CARt
+        //Add to cart
         private IWebElement buySearchedAutoTestBookButton => driver.FindElement(By.CssSelector("#add_to_cart_single_add_to_cart_1489740"));
         private IWebElement viewShopCartLink => driver.FindElement(By.LinkText("Peržiūrėti prekių krepšelį"));
         private IWebElement recycleButton => driver.FindElement(By.CssSelector(".ico-recycle-bin"));
@@ -55,27 +54,23 @@ namespace BaigiamasisDarbas.Page
         public BooksPage(IWebDriver webdriver) : base(webdriver)
         {           
         }
-
         public BooksPage NavigateToPage()
         {
             if (driver.Url != booksPageAddress)
                 driver.Url = booksPageAddress;
             return this;
         }
-
         public BooksPage NavigateToBookByLink()
         {
             if (driver.Url != top1BookAddress)
                 driver.Url = top1BookAddress;
             return this;
-        }
-       
+        }       
         public BooksPage ClickTopButton()
         {
             topLink.Click();
             return this;
         }
-
         public BooksPage ClickRecycleButton()
         {
             recycleButton.Click();
@@ -92,27 +87,21 @@ namespace BaigiamasisDarbas.Page
             return this;
         }
         public BooksPage CheckFirstBookInTopPrice(string price)
-        {
-            string priceFullText = price;
-            Assert.AreEqual(priceFullText, top1BookPrice.Text, $"Kaina nesutampa, turi buti {price}");           
+        {          
+            Assert.AreEqual(price, top1BookPrice.Text, $"Kaina nesutampa, turi buti {price}");           
             return this;
         }
-
         public BooksPage CheckFirstBookInTopStatusInKaunasStore(string status)
-        {
-            string statusFullText = status;
-            Assert.AreEqual(statusFullText, top1BookInKaunasShop.Text, $"Statusas nesutampa, turi buti {status}");
+        {        
+            Assert.AreEqual(status, top1BookInKaunasShop.Text, $"Statusas nesutampa, turi buti {status}");
             return this;
         }
-
         public BooksPage CheckFilteredBooksCount(string booksCount)
-        {
-           // string priceFullText = booksCount;
+        {           
             Assert.AreEqual(booksCount, filterResult.Text, $"Kaina nesutampa, turi buti {booksCount}");
             return this;
-        }        
-
-        public BooksPage DoSearch(string searchText, string searchResultText)
+        }
+        public BooksPage DoSearch(string searchText)
         {
             searchInput.Click();
             searchInput.SendKeys(searchText);
@@ -123,15 +112,14 @@ namespace BaigiamasisDarbas.Page
         {       
             Assert.AreEqual($"Rasta {searchBookCountResult.Text} rezult. užklausai {searchText}", searchResultText, $"Rezultatas nesutampa, turi buti {searchBookCountResult}");
             return this;
-        }  
-
+        } 
         public BooksPage FilterBook()
         {
             allBooksSideMenu.Click();
             hobbiesCategory.Click();
             gamesBooksCategory.Click();
             topGoodsCheckbox.Click();
-            GetWait(2).Until(ExpectedConditions.ElementToBeClickable(publishingHouseList));
+            GetWait().Until(ExpectedConditions.ElementToBeClickable(publishingHouseList));
             publishingHouseList.Click();
             publishingHouseObuolys.Click();
             balanceInWarehouseCheckbox.Click();
@@ -144,30 +132,26 @@ namespace BaigiamasisDarbas.Page
             customCouponPriceInput.Click();
             customCouponPriceInput.SendKeys(customCouponPrice);
             customCouponPriceInput.SendKeys(Keys.Enter);          
-            Assert.AreEqual(payMoneyResultText, payMoney.Text, $"Rezultatas nesutampa, turi buti {customCouponPrice}");
+            Assert.AreEqual(payMoneyResultText, payMoney.Text, $"Rezultatas nesutampa, turi buti {payMoneyResultText}");
             return this;
         }
-
             public BooksPage ClickClearFilterButton()
         {
             clearFilterButton.Click();
             return this;
-        }                    
-
+        }  
         public BooksPage ClickBuySearchedAutoTestBookButton()
         {
             buySearchedAutoTestBookButton.Click();
             return this;
         }
-
         public BooksPage AcceptCookies() 
         {
-
             Cookie myCookie = new Cookie("cookieconsent_status",
-                "allow",
-                ".knygos.lt",
-                "/",
-                DateTime.Now.AddDays(2));
+                                         "allow",
+                                         ".knygos.lt",
+                                         "/",
+                                         DateTime.Now.AddDays(2));
             driver.Manage().Cookies.AddCookie(myCookie);
             driver.Navigate().Refresh(); 
             return this;
